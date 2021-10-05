@@ -17,6 +17,8 @@
 		E15A257D270CA2C800D20F69 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15A257C270CA2C800D20F69 /* ConfettiView.swift */; };
 		E15A257F270CA2F000D20F69 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15A257E270CA2F000D20F69 /* Extensions.swift */; };
 		E15A2581270CA58C00D20F69 /* MatchingButtonSyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15A2580270CA58C00D20F69 /* MatchingButtonSyle.swift */; };
+		E15A2584270CAE0F00D20F69 /* SFSafeSymbols in Frameworks */ = {isa = PBXBuildFile; productRef = E15A2583270CAE0F00D20F69 /* SFSafeSymbols */; };
+		E15A2586270CC95100D20F69 /* MatchingSuccessCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15A2585270CC95100D20F69 /* MatchingSuccessCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,7 @@
 		E15A257C270CA2C800D20F69 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
 		E15A257E270CA2F000D20F69 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		E15A2580270CA58C00D20F69 /* MatchingButtonSyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingButtonSyle.swift; sourceTree = "<group>"; };
+		E15A2585270CC95100D20F69 /* MatchingSuccessCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingSuccessCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E15A2584270CAE0F00D20F69 /* SFSafeSymbols in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,8 +90,9 @@
 			isa = PBXGroup;
 			children = (
 				E15A2573270BEF1600D20F69 /* MatchingView.swift */,
-				E15A2576270BEF5B00D20F69 /* MatchingManager.swift */,
+				E15A2585270CC95100D20F69 /* MatchingSuccessCardView.swift */,
 				E15A2580270CA58C00D20F69 /* MatchingButtonSyle.swift */,
+				E15A2576270BEF5B00D20F69 /* MatchingManager.swift */,
 				E15A2578270BEF6800D20F69 /* MatchingData.swift */,
 			);
 			path = Matching;
@@ -109,6 +114,9 @@
 			dependencies = (
 			);
 			name = Parkv2;
+			packageProductDependencies = (
+				E15A2583270CAE0F00D20F69 /* SFSafeSymbols */,
+			);
 			productName = Parkv2;
 			productReference = E15A2562270BEEFE00D20F69 /* Parkv2.app */;
 			productType = "com.apple.product-type.application";
@@ -137,6 +145,9 @@
 				Base,
 			);
 			mainGroup = E15A2559270BEEFE00D20F69;
+			packageReferences = (
+				E15A2582270CAE0F00D20F69 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
+			);
 			productRefGroup = E15A2563270BEEFE00D20F69 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -165,6 +176,7 @@
 			files = (
 				E15A257D270CA2C800D20F69 /* ConfettiView.swift in Sources */,
 				E15A2568270BEEFE00D20F69 /* ContentView.swift in Sources */,
+				E15A2586270CC95100D20F69 /* MatchingSuccessCardView.swift in Sources */,
 				E15A2574270BEF1600D20F69 /* MatchingView.swift in Sources */,
 				E15A2577270BEF5B00D20F69 /* MatchingManager.swift in Sources */,
 				E15A2566270BEEFE00D20F69 /* Parkv2App.swift in Sources */,
@@ -377,6 +389,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E15A2582270CAE0F00D20F69 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/piknotech/SFSafeSymbols.git";
+			requirement = {
+				branch = stable;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E15A2583270CAE0F00D20F69 /* SFSafeSymbols */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E15A2582270CAE0F00D20F69 /* XCRemoteSwiftPackageReference "SFSafeSymbols" */;
+			productName = SFSafeSymbols;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E15A255A270BEEFE00D20F69 /* Project object */;
 }

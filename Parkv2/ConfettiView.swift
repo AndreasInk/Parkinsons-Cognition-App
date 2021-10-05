@@ -32,38 +32,38 @@ struct ConfettiView: View {
     @State var stopConfetti = false
     var body: some View {
         if !stopConfetti {
-        ZStack {
-            Color(.clear)
-                .onAppear() {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        withAnimation(.easeInOut) {
-                        stopConfetti = true
+            ZStack {
+                Color(.clear)
+                    .onAppear() {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            withAnimation(.easeInOut) {
+                                stopConfetti = true
+                            }
                         }
-                    }
-                    let colors = Int.random(in: 0..<3)
-                    if colors == 0 {
-                        color = purple
-                    } else if colors == 1 {
-                        color = red
-                    } else if colors == 2 {
-                        color = blue
-                    }
-                    
+                        let colors = Int.random(in: 0..<3)
+                        if colors == 0 {
+                            color = purple
+                        } else if colors == 1 {
+                            color = red
+                        } else if colors == 2 {
+                            color = blue
+                        }
+                        
                         withAnimation(.easeOut(duration: Double.random(in: 2..<4))) {
                             y = 1000
                             
                         }
                         
-                    
+                        
                     }
-                }
+            }
 #if os(iOS)
-        .onRotate { newOrientation in
-            x = CGFloat.random(in: 0...UIScreen.main.bounds.width).rounded()
-           
-        }
-#endif
+            .onRotate { newOrientation in
+                x = CGFloat.random(in: 0...UIScreen.main.bounds.width).rounded()
                 
+            }
+#endif
+            
             Rectangle()
                 .foregroundColor(Color(color))
                 .frame(width: 20, height: 20, alignment: .center)
@@ -73,9 +73,9 @@ struct ConfettiView: View {
                 .rotation3DEffect(.degrees(animate ? 360:0), axis: (x: 0, y: 0, z: 1), anchor: UnitPoint(x: anchor, y: anchor))
                 .animation(Animation.linear(duration: zSpeed).repeatForever(autoreverses: false))
                 .position(CGPoint(x: x, y: y))
-        //.opacity(stop ? 0 : 1)
-                
+            //.opacity(stop ? 0 : 1)
+            
         }
     }
-    }
+}
 

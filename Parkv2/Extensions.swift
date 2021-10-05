@@ -23,20 +23,20 @@ extension LinearGradient: Equatable {
     
     static let Primary = LinearGradient(colors: [.Secondary, .Primary], startPoint: .topLeading, endPoint: .bottom)
     static let Secondary = LinearGradient(colors: [.Primary, .Secondary], startPoint: .topLeading, endPoint: .bottom)
-    static let Light = LinearGradient(colors: [.Light, .Light], startPoint: .topLeading, endPoint: .bottom)
+    static let Light = LinearGradient(colors: [.Light, .Light.opacity(0.6)], startPoint: .topLeading, endPoint: .bottom)
     static let Dark = LinearGradient(colors: [.Black, .Black], startPoint: .topLeading, endPoint: .bottom)
 }
 
 extension Array where Element:Equatable {
     func removeDuplicates() -> [Element] {
         var result = [Element]()
-
+        
         for value in self {
             if result.contains(value) == false {
                 result.append(value)
             }
         }
-
+        
         return result
     }
 }
@@ -65,7 +65,7 @@ extension UserDefaults {
 #if os(iOS)
 struct DeviceRotationViewModifier: ViewModifier {
     let action: (UIDeviceOrientation) -> Void
-
+    
     func body(content: Content) -> some View {
         content
             .onAppear()
@@ -82,3 +82,43 @@ extension View {
     }
 }
 #endif
+extension Character {
+    var isSimpleEmoji: Bool {
+        guard let firstScalar = unicodeScalars.first else { return false }
+        return firstScalar.properties.isEmoji && firstScalar.value > 0x238C
+        
+    }
+    
+    var isCombinedIntoEmoji: Bool { unicodeScalars.count > 1 && unicodeScalars.first?.properties.isEmoji ?? false }
+    
+    var isEmoji: Bool { isSimpleEmoji || isCombinedIntoEmoji }
+    
+    
+}
+
+extension String {
+    var isSingleEmoji: Bool { count == 1 && containsEmoji }
+    
+    var containsEmoji: Bool { contains { $0.isEmoji } }
+    
+    var containsOnlyEmoji: Bool { !isEmpty && !contains { !$0.isEmoji } }
+    
+    var emojiString: String { emojis.map { String($0) }.reduce("", +) }
+    
+    var emojis: [Character] { filter { $0.isEmoji } }
+    
+    var emojiScalars: [UnicodeScalar] { filter { $0.isEmoji }.flatMap { $0.unicodeScalars } }
+}
+extension Array where Element: BinaryInteger {
+
+    /// The average value of all the items in the array
+    var average: Double {
+        if self.isEmpty {
+            return 0.0
+        } else {
+            let sum = self.reduce(0, +)
+            return Double(sum) / Double(self.count)
+        }
+    }
+
+}
