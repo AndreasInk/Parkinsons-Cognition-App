@@ -14,11 +14,13 @@ struct MatchingView: View {
     
     @State var confetti = false
     
+    @State var done = false
+    
     var body: some View {
         ZStack {
             VStack {
              
-                    if matchingManager.time > 1 {
+                    if matchingManager.time > 0 {
                         Text("Time Left To Memorize: " + String(matchingManager.time))
                             .font(.title)
                             .bold()
@@ -29,20 +31,23 @@ struct MatchingView: View {
                         
                         Button(action: {
                             
+                           
                             withAnimation(.easeOut) {
                                 if  matchingManager.lastID != pair.id {
                                     pair.isMatched = matchingManager.lastText == pair.text
                                 }
-                                matchingManager.lastText  = pair.text
-                                matchingManager.lastID  = pair.id
+                               
                                 
                                 
-                            }
+                            
                             withAnimation(.easeOut) {
                                 pair.isShowing = true
                             }
-                            
-                            
+                                
+                               
+                            }
+                            matchingManager.lastText = pair.text
+                            matchingManager.lastID  = pair.id
                             //
                         }) {
                             
@@ -63,29 +68,39 @@ struct MatchingView: View {
                                 }
                             }
                         } //.buttonStyle(MatchingButtonStyle())
-                        .padding()
-                        .disabled(matchingManager.time < 1 ? false : true)
-                        .scaleEffect(matchingManager.lastID == pair.id ? 1.2 : 1.0)
                         .onChange(of: pair.isShowing) { value in
-                            if value {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                                    withAnimation(.easeOut(duration: 2.0)) {
-                                        pair.isShowing = false
-                                    }
+                           
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                               
+                                    if matchingManager.time < 1 {
+                                withAnimation(.easeOut(duration: 2.0)) {
+                                    
+                                    pair.isShowing = false
                                 }
+                            
+                                }
+                            
                             }
                         }
+                        .padding()
+                        .disabled(matchingManager.time < 0 ? false : true)
+                        .scaleEffect(matchingManager.lastID == pair.id ? 1.2 : 1.0)
+                       
                         .onChange(of: pair.isMatched) { value in
                             if value {
                                 for i in matchingManager.matching.pairs.indices {
                                     if matchingManager.matching.pairs[i].text == pair.text {
+                                      
                                         withAnimation(.easeOut(duration: 2.0)) {
-                                            matchingManager.matching.pairs[i].isMatched = true
                                            
-                                    }
+                                            matchingManager.matching.pairs[i].isMatched = true
+                                            }
+                                           
+                                    
                                     }
                             }
                         }
+                           
                         
                         
                         
@@ -93,11 +108,20 @@ struct MatchingView: View {
                 }
             }
             }
-            if matchingManager.matching.pairs.filter { card in
-                return card.isMatched
-            }.count > 5 {
+            .onChange(of: matchingManager.matching.pairs) { value in
+                withAnimation(.easeOut(duration: 0.5)) {
+               done = matchingManager.matching.pairs.filter { card in
+                    return card.isMatched
+                }.count > 5
+                }
+                
+            }
+            
+            if done {
+            
                 MatchingSuccessCardView(matchingManager: matchingManager)
                     .padding()
+                    .transition(.opacity)
                     .onAppear() {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                        

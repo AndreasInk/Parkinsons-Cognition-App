@@ -17,7 +17,7 @@ class MatchingManager: ObservableObject {
     @Published var time = 10
     
     @Published var averageSpeed = UserDefaults.standard.double(forKey: "averageMatching")
-    @Published var speeds: [Int] = UserDefaults.standard.array(forKey: "speeds") as? [Int] ?? []
+    @Published var speeds: [Double] = UserDefaults.standard.array(forKey: "speeds") as? [Double] ?? []
     
     
     let characters = String().emojis
@@ -30,24 +30,31 @@ class MatchingManager: ObservableObject {
         }
         matching.pairs = matching.pairs.shuffled()
         _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            withAnimation(.spring()) {
             self.time -= 1
-            if self.time < 1 {
+            }
+            if self.time < 2 {
                 if self.matching.speed < 1 && self.matching.speed != -1 {
                     self.toggleAllCards()
                 }
                 if self.matching.pairs.filter({ card in
                     return card.isMatched
                 }).count < 5 {
+                   
                     self.matching.speed += 1
+                    
+                    
                 }
             }
         }
     }
     func randomMatching() {
-//        UserDefaults.standard.set(speeds.append(Int(matching.speed)), forKey: "speeds")
-//        UserDefaults.standard.set(speeds.average, forKey: "averageMatching")
-        matching = MatchingData(id: UUID().uuidString, pairs: [MatchCard(text: "🎉", isShowing: true, isMatched: false), MatchCard(text: "🧠", isShowing: true, isMatched: false), MatchCard(text: "⚡️", isShowing: true, isMatched: false)], speed: -1, accuracy: 0)
-        matching.pairs.removeAll()
+        speeds.append(matching.speed)
+        UserDefaults.standard.set(speeds, forKey: "speeds")
+        UserDefaults.standard.set(speeds.average, forKey: "averageMatching")
+        averageSpeed = UserDefaults.standard.double(forKey: "averageMatching")
+        matching = MatchingData(id: UUID().uuidString, pairs: [], speed: -1, accuracy: 0)
+      
         for i in 0x1F601...0x1F64F {
             matching.pairs.append(MatchCard(id: UUID().uuidString, text: String(UnicodeScalar(i) ?? "-"), isShowing: true, isMatched: false))
         }
@@ -61,7 +68,7 @@ class MatchingManager: ObservableObject {
     }
     func toggleAllCards() {
         for i in matching.pairs.indices {
-            withAnimation(.easeOut(duration: 2.0)) {
+            withAnimation(.easeOut(duration: 1.5)) {
                 matching.pairs[i].isShowing.toggle()
             }
             

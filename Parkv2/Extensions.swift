@@ -109,7 +109,7 @@ extension String {
     
     var emojiScalars: [UnicodeScalar] { filter { $0.isEmoji }.flatMap { $0.unicodeScalars } }
 }
-extension Array where Element: BinaryInteger {
+extension Array where Element == Double {
 
     /// The average value of all the items in the array
     var average: Double {
